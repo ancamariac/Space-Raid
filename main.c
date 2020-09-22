@@ -1,5 +1,30 @@
 #include "raylib.h"
 
+/*class Ship {
+private:
+protected:
+public:
+    float x, y, angle;
+    Texture2D redtex = LoadTexture("assets/redship.png");
+    Texture2D bluetex = LoadTexture("assets/blueship.png");
+    Texture2D greentex = LoadTexture("assets/greenship.png");
+    Texture2D purpletex = LoadTexture("assets/purpleship.png");
+    Ship (){
+        x = 0;
+        y = 0;
+        angle = 0;
+    }
+
+    void control() {
+
+    }
+
+    void draw() {
+
+    }
+};
+*/
+
 int main(void)
 {
     // Initialization
