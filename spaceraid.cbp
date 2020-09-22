@@ -19,6 +19,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="../../src" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="C:/raylib/mingw/i686-w64-mingw32/lib/libraylib.a" />
@@ -37,6 +38,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="../../src" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -48,13 +50,14 @@
 		<Compiler>
 			<Add option="-Wall -std=c99" />
 		</Compiler>
-		<Unit filename="main.c">
+		<Unit filename="include/Drawable.h" />
+		<Unit filename="include/Scene.h" />
+		<Unit filename="include/Updateable.h" />
+		<Unit filename="main.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/Scene.cpp" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
