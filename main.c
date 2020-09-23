@@ -2,7 +2,13 @@
 #include <iostream>
 using namespace std;
 
-int currentScene = 0;
+enum class Scenes {
+TapToStart,
+MainMenu,
+ChooseColors
+};
+
+Scenes currentScene = Scenes::ChooseColors;
 
 
 class Ship {
@@ -37,8 +43,7 @@ const int screenHeight = 1000;
 
 class TapToStart {
     public:
-        Texture2D logo, background, taptostart;
-        float scrollingBack = 0.0f;
+        Texture2D logo, taptostart;
 
         int mouseX = 0, mouseY = 0;
         int btnState = 0;               // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED
@@ -46,20 +51,12 @@ class TapToStart {
         Vector2 mousePoint = { 0.0f, 0.0f };
 
         TapToStart () {
-
-            background = LoadTexture("assets/background.png");
             logo = LoadTexture("assets/logov2.png");
             taptostart = LoadTexture("assets/taptostart.png");
 
 
         }
         void draw(){
-
-            scrollingBack -= 2.0f;
-            if (scrollingBack <= -background.width*2) scrollingBack = 0;
-
-            DrawTextureEx(background, (Vector2){ scrollingBack, 0 }, 0.0f, 2.0f, WHITE);
-            DrawTextureEx(background, (Vector2){ background.width*2 + scrollingBack, 0 }, 0.0f, 2.0f, WHITE);
 
             DrawTexture(logo, screenWidth/2 - logo.width/2, screenHeight/2 - logo.height/2 - 110, WHITE);
 
@@ -78,7 +75,7 @@ class TapToStart {
                      mouseY >= screenHeight/2 - taptostart.height/2 + 330 &&
                      mouseY <= screenHeight/2 + taptostart.height/2 + 330 ) {
 
-                        currentScene = 1;
+                        currentScene = Scenes::MainMenu;
                 }
            }
         }
@@ -88,8 +85,7 @@ class TapToStart {
 class Menu {
 
 public:
-    Texture2D playgame, options, credits, logo, background;
-    float scrollingBack = 0.0f;
+    Texture2D playgame, options, credits, logo;
 
 
     int mouseX = 0, mouseY = 0;
@@ -108,7 +104,6 @@ public:
        credits = LoadTexture("assets/credits.png");
        options = LoadTexture("assets/options.png");
        playgame = LoadTexture("assets/playgame.png");
-       background = LoadTexture("assets/background.png");
 
        playGamePos.x = screenWidth/2 - playgame.width*2;
        playGamePos.y = screenHeight/2 - playgame.height*2 + 250;
@@ -120,12 +115,6 @@ public:
     }
 
      void draw(){
-
-            scrollingBack -= 2.0f;
-            if (scrollingBack <= -background.width*2) scrollingBack = 0;
-
-            DrawTextureEx(background, (Vector2){ scrollingBack, 0 }, 0.0f, 2.0f, WHITE);
-            DrawTextureEx(background, (Vector2){ background.width*2 + scrollingBack, 0 }, 0.0f, 2.0f, WHITE);
 
             DrawTexture(logo, screenWidth/2 - logo.width/2, screenHeight/2 - logo.height/2 - 175, WHITE);
 
@@ -141,10 +130,146 @@ public:
      }
 };
 
-class chooseColor {
+class ChooseColorButton {
+private:
+    void setNumber( int n ){
+        switch ( n ) {
+            case 1:
+                pTex = LoadTexture("assets/1p.png");
+                shipTex = LoadTexture("assets/blueship.png");
+                break;
+            case 2:
+                pTex = LoadTexture("assets/2p.png");
+                shipTex = LoadTexture("assets/redship.png");
+                break;
+            case 3 :
+                pTex = LoadTexture("assets/3p.png");
+                shipTex = LoadTexture("assets/greenship.png");
+                break;
+            case 4:
+                pTex = LoadTexture("assets/4p.png");
+                shipTex = LoadTexture("assets/purpleship.png");
+                break;
+        }
+
+        shipPos.x = x+width-shipTex.width*4-10;
+        shipPos.y = y+10;
+    }
+
+    void setPosition( int _x , int _y ){
+        x = _x;
+        y = _y;
+    }
+
+    bool active = false;
+
+public:
+    int x = 0, y = 0;
+    const int width = 200;
+    const int height = 100;
+
+    Texture2D pTex;
+    Texture2D shipTex;
+
+    Vector2 shipPos;
+    Vector2 pPos;
+
+    void configure( int _x, int _y, int color ) {
+        setPosition(_x,_y);
+        setNumber(color);
+    }
+
+    void draw() {
+
+        if ( active ){
+            // Draw rectangle + white border
+            DrawRectangle(x, y, width, height, ORANGE);
+            DrawRectangleLines(x+2, y+2, width-4, height-4, WHITE);
+
+            // Draw p and ship
+            DrawTextureEx(shipTex, shipPos, 0, 4, WHITE);
+            DrawTexture(pTex, x+10, y+10, WHITE);
+        } else {
+            // Draw rectangle + white border
+            DrawRectangle(x, y, width, height, GRAY);
+            DrawRectangleLines(x+2, y+2, width-4, height-4, WHITE);
+        }
+
+
+    }
+
+    void update() {
+        if ( IsMouseButtonPressed(MOUSE_LEFT_BUTTON) ){
+            Vector2 mousePos = GetMousePosition();
+
+            if ( mousePos.x >= x && mousePos.x <= x + width &&
+                 mousePos.y >= y && mousePos.y <= y + height
+                )
+            active = !active;
+        }
+    }
+
+    bool getActive() {
+        return active;
+    }
+};
+
+class ChooseColor {
+public:
+
+    ChooseColorButton blueShipButton, redShipButton, greenShipButton, purpleShipButton;
+
+    ChooseColor () {
+        blueShipButton.configure(300,500,1);
+        redShipButton.configure(550,500,2);
+        greenShipButton.configure(800,500,3);
+        purpleShipButton.configure(1050,500,4);
+    }
+
+    void draw () {
+        blueShipButton.draw();
+        redShipButton.draw();
+        greenShipButton.draw();
+        purpleShipButton.draw();
+    }
+
+    void update() {
+        blueShipButton.update();
+        redShipButton.update();
+        greenShipButton.update();
+        purpleShipButton.update();
+    }
 
 
 };
+
+class BackgroundRenderer {
+public:
+    Texture2D background;
+    float scrollingBack = 0.0f;
+    int btnState = 0;               // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED
+    bool btnAction = false;         // Button action should be activated
+    Vector2 mousePoint = { 0.0f, 0.0f };
+
+    BackgroundRenderer () {
+        background = LoadTexture("assets/background.png");
+    }
+
+    void draw(){
+
+        scrollingBack -= 2.0f;
+        if (scrollingBack <= -background.width*2) scrollingBack = 0;
+
+        DrawTextureEx(background, (Vector2){ scrollingBack, 0 }, 0.0f, 2.0f, WHITE);
+        DrawTextureEx(background, (Vector2){ background.width*2 + scrollingBack, 0 }, 0.0f, 2.0f, WHITE);
+    }
+
+
+};
+
+
+
+
 int main(void)
 {
     // Initialization
@@ -161,6 +286,8 @@ int main(void)
 
     TapToStart start;
     Menu menu;
+    ChooseColor colors;
+    BackgroundRenderer bkgr;
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -171,11 +298,14 @@ int main(void)
         //----------------------------------------------------------------------------------
             switch(currentScene) {
 
-                case 0:
+                case Scenes::TapToStart:
                     start.update();
                     break;
-                case 1:
+                case Scenes::MainMenu:
                     menu.update();
+                    break;
+                case Scenes::ChooseColors:
+                    colors.update();
                     break;
             }
 
@@ -188,14 +318,20 @@ int main(void)
 
             ClearBackground(GetColor(0x052c46ff));
 
+            bkgr.draw();
+
             switch(currentScene) {
 
-                case 0:
+                case Scenes::TapToStart:
                     start.draw();
                     break;
 
-                case 1:
+                case Scenes::MainMenu:
                     menu.draw();
+                    break;
+
+                case Scenes::ChooseColors:
+                    colors.draw();
                     break;
 
             }
