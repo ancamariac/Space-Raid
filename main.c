@@ -8,8 +8,21 @@ MainMenu,
 ChooseColors
 };
 
-Scenes currentScene = Scenes::ChooseColors;
+Scenes currentScene = Scenes::TapToStart;
 
+/* Check if a rectangle on-screen is clicked */
+bool IsRecClicked ( int button, int x, int y, int w, int h ) {
+    if ( IsMouseButtonPressed(button) ) {
+        Vector2 mousePos = GetMousePosition();
+
+
+        if ( mousePos.x >= x && mousePos.x <= x+w
+            && mousePos.y >= y && mousePos.y <= y+h )
+            return true;
+    }
+
+    return false;
+}
 
 class Ship {
 
@@ -125,8 +138,9 @@ public:
      }
 
      void update() {
-
-
+        if ( IsRecClicked( MOUSE_LEFT_BUTTON, playGamePos.x, playGamePos.y, playgame.width*4, playgame.height*4 ) ) {
+            currentScene = Scenes::ChooseColors;
+        }
      }
 };
 
