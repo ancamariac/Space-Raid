@@ -1,12 +1,16 @@
 #include "raylib.h"
 #include <iostream>
 using namespace std;
-#define NUM_FRAMES  3       // Number of frames (rectangles) for the button sprite texture
 
-/*class Ship {
+
+class Ship {
+
 private:
+
 protected:
+
 public:
+
     float x, y, angle;
     Texture2D redtex, bluetex, greentex, purpletex;
 
@@ -20,15 +24,15 @@ public:
         purpletex = LoadTexture("assets/purpleship.png");
     }
 
-    void control() {
+    /*void control() {
 
     }
 
     void draw() {
 
-    }
+    }*/
 };
-*/
+
 
 const int screenWidth = 1600;
 const int screenHeight = 1000;
@@ -66,14 +70,15 @@ class TapToStart {
         }
 
         void update() {
-           mouseX = GetMouseX();
-           mouseY = GetMouseY();
+
            if ( IsMouseButtonPressed(MOUSE_LEFT_BUTTON) ) {
                  mouseX = GetMouseX();
                  mouseY = GetMouseY();
 
-                if ( mouseX >= screenWidth/2 - taptostart.width/2 && mouseX <= screenWidth/2 + taptostart.width/2 &&
-                    mouseY >= screenHeight/2 - taptostart.height/2 + 330 && mouseY <= screenHeight/2 + taptostart.height/2 + 330 ) {
+                if ( mouseX >= screenWidth/2 - taptostart.width/2 &&
+                     mouseX <= screenWidth/2 + taptostart.width/2 &&
+                     mouseY >= screenHeight/2 - taptostart.height/2 + 330 &&
+                     mouseY <= screenHeight/2 + taptostart.height/2 + 330 ) {
 
                         cout<<"merge";
                 }
