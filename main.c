@@ -130,7 +130,6 @@ public:
      void draw(){
 
             DrawTexture(logo, screenWidth/2 - logo.width/2, screenHeight/2 - logo.height/2 - 175, WHITE);
-
             DrawTextureEx(playgame, playGamePos, 0, 4, WHITE);
             DrawTextureEx(options, optionsPos, 0, 4, WHITE);
             DrawTextureEx(credits, creditsPos, 0, 4, WHITE);
@@ -145,9 +144,12 @@ public:
 };
 
 class ChooseColorButton {
+
 private:
     void setNumber( int n ){
+
         switch ( n ) {
+
             case 1:
                 pTex = LoadTexture("assets/1p.png");
                 shipTex = LoadTexture("assets/blueship.png");
@@ -223,7 +225,7 @@ public:
         }
     }
 
-    bool getActive() {
+    bool isActive() {
         return active;
     }
 };
@@ -232,8 +234,19 @@ class ChooseColor {
 public:
 
     ChooseColorButton blueShipButton, redShipButton, greenShipButton, purpleShipButton;
+    Texture2D nextButton, backButton;
+    Vector2 nextPos, backPos;
 
     ChooseColor () {
+
+        backButton = LoadTexture("assets/back.png");
+        backPos.x = screenWidth/2 - backButton.width - 600;
+        backPos.y = screenHeight/2 - backButton.height - 350;
+
+        nextButton = LoadTexture("assets/next.png");
+        nextPos.x = screenWidth/2 + nextButton.width + 250;
+        nextPos.y = screenHeight/2 - nextButton.height - 350;
+
         blueShipButton.configure(300,500,1);
         redShipButton.configure(550,500,2);
         greenShipButton.configure(800,500,3);
@@ -241,17 +254,41 @@ public:
     }
 
     void draw () {
+
         blueShipButton.draw();
         redShipButton.draw();
         greenShipButton.draw();
         purpleShipButton.draw();
+
+        if ( isNextButtonActive () )
+            DrawTextureEx(nextButton, nextPos, 0, 2, WHITE ); // transparency off
+        else
+            DrawTextureEx(nextButton, nextPos, 0, 2, (Color){ 255, 255, 255, 127 } ); // transparency on
+
+        DrawTextureEx(backButton, backPos, 0, 2, WHITE);
     }
 
     void update() {
+
         blueShipButton.update();
         redShipButton.update();
         greenShipButton.update();
         purpleShipButton.update();
+
+        if ( IsRecClicked ( MOUSE_LEFT_BUTTON, backPos.x, backPos.y, backButton.width, backButton.height ) ) {
+
+            currentScene = Scenes::MainMenu;
+        }
+
+    }
+
+    bool isNextButtonActive () {
+        int sum =   blueShipButton.isActive()
+        +           redShipButton.isActive()
+        +           greenShipButton.isActive()
+        +           purpleShipButton.isActive();
+
+        return sum >= 2;
     }
 
 
