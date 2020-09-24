@@ -318,7 +318,20 @@ public:
 
 };
 
+class GameScene {
+public :
+    GameScene () {
 
+    }
+
+    void draw () {
+
+    }
+
+    void update () {
+
+    }
+};
 
 
 int main(void)
