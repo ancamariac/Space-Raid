@@ -56,6 +56,7 @@
 		<Unit filename="include/Constants.h" />
 		<Unit filename="include/GameScene.h" />
 		<Unit filename="include/Helpers.h" />
+		<Unit filename="include/InputController.h" />
 		<Unit filename="include/Menu.h" />
 		<Unit filename="include/Scenes.h" />
 		<Unit filename="include/Ship.h" />
@@ -66,6 +67,7 @@
 		<Unit filename="src/ChooseColorButton.cpp" />
 		<Unit filename="src/GameScene.cpp" />
 		<Unit filename="src/Helpers.cpp" />
+		<Unit filename="src/InputController.cpp" />
 		<Unit filename="src/Menu.cpp" />
 		<Unit filename="src/Scenes.cpp" />
 		<Unit filename="src/Ship.cpp" />

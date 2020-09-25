@@ -1,3 +1,3 @@
 #include "Scenes.h"
 
-Scenes currentScene = Scenes::TapToStart;
+Scenes currentScene = Scenes::GameScene;

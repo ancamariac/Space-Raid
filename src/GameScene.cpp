@@ -2,6 +2,8 @@
 
     GameScene::GameScene (){}
 
-    void GameScene::draw () {}
+    void GameScene::draw () {
+        inputController.draw();
+    }
 
     void GameScene::update () {}

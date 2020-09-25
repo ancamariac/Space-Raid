@@ -1,5 +1,6 @@
 #ifndef GAMESCENES_H
 #define GAMESCENES_H
+#include "InputController.h"
 
 class GameScene {
 public :
@@ -8,6 +9,8 @@ public :
     void draw ();
 
     void update ();
+private:
+    InputController inputController;
 };
 
 #endif // GAMESCENES_H

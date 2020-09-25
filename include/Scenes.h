@@ -4,7 +4,8 @@
 enum class Scenes {
 TapToStart,
 MainMenu,
-ChooseColors
+ChooseColors,
+GameScene
 };
 
 extern Scenes currentScene;

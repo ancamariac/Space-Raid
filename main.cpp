@@ -30,6 +30,7 @@ int main(void)
     Menu menu;
     ChooseColor colors;
     BackgroundRenderer bkgr;
+    GameScene gameScene;
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -48,6 +49,8 @@ int main(void)
                     break;
                 case Scenes::ChooseColors:
                     colors.update();
+                case Scenes::GameScene:
+                    gameScene.update();
                     break;
             }
 
@@ -74,6 +77,9 @@ int main(void)
 
                 case Scenes::ChooseColors:
                     colors.draw();
+                    break;
+                case Scenes::GameScene:
+                    gameScene.draw();
                     break;
 
             }
