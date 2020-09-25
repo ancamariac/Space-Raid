@@ -19,6 +19,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="../../src" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="C:/raylib/mingw/i686-w64-mingw32/lib/libraylib.a" />
@@ -37,6 +38,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="../../src" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -48,7 +50,26 @@
 		<Compiler>
 			<Add option="-Wall -std=c99" />
 		</Compiler>
+		<Unit filename="include/BackgroundRenderer.h" />
+		<Unit filename="include/ChooseColor.h" />
+		<Unit filename="include/ChooseColorButton.h" />
+		<Unit filename="include/Constants.h" />
+		<Unit filename="include/GameScene.h" />
+		<Unit filename="include/Helpers.h" />
+		<Unit filename="include/Menu.h" />
+		<Unit filename="include/Scenes.h" />
+		<Unit filename="include/Ship.h" />
+		<Unit filename="include/TapToStart.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/BackgroundRenderer.cpp" />
+		<Unit filename="src/ChooseColor.cpp" />
+		<Unit filename="src/ChooseColorButton.cpp" />
+		<Unit filename="src/GameScene.cpp" />
+		<Unit filename="src/Helpers.cpp" />
+		<Unit filename="src/Menu.cpp" />
+		<Unit filename="src/Scenes.cpp" />
+		<Unit filename="src/Ship.cpp" />
+		<Unit filename="src/TapToStart.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
