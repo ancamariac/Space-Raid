@@ -6,4 +6,6 @@
         inputController.draw();
     }
 
-    void GameScene::update () {}
+    void GameScene::update () {
+        inputController.update();
+    }
