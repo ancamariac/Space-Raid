@@ -1,3 +1,3 @@
 #include "Scenes.h"
 
-Scenes currentScene = Scenes::ChooseColors;
+Scenes currentScene = Scenes::GameScene;

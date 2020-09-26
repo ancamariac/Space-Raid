@@ -5,6 +5,7 @@
 class GameScene {
 public :
     GameScene ();
+    virtual ~GameScene();
 
     void draw ();
 
