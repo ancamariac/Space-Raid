@@ -46,13 +46,7 @@ bool ClickableTriangle::isActive()
 
 InputController::InputController()
 {
-    /*
-    triangles[0] = new ClickableTriangle(Vector2{0,0}, Vector2{0, screenHeight/2 - 100}, Vector2{screenWidth/2 - 300, 0}, GREEN);
-    triangles[1] = new ClickableTriangle(Vector2{0, screenHeight}, Vector2{screenWidth/2 - 300, screenHeight}, Vector2{0, screenHeight/2 + 100}, GREEN);
 
-    triangles[2] = new ClickableTriangle(Vector2{screenWidth, screenHeight/2 - 100}, Vector2{screenWidth,0}, Vector2{screenWidth/2+300,0}, RED);
-    triangles[3] = new ClickableTriangle(Vector2{screenWidth/2+300, screenHeight}, Vector2{screenWidth,screenHeight}, Vector2{screenWidth,screenHeight/2 + 100}, RED);
-    */
 }
 
 InputController::~InputController()
@@ -91,10 +85,10 @@ Color getColorOfControllerPair(int index) { // 1-based
     return BLACK;
 }
 
+// Function called when the GameScene becomes active ( one time )
+// Creates the layout for the input controller depending on how many players play
 void InputController::setLayout()
 {
-    //shipsNumber;
-    //playingShips;
     layout = shipsNumber;
 
     switch(layout) {
@@ -210,12 +204,7 @@ void InputController::setLayout()
 
 void InputController::update()
 {
-    /*
-    for ( int i = 0; i < CLICKABLE_TRIANGLE_COUNT; i++ ) {
-        triangles[i]->update();
-    }
-    */
-
+    // Iterate through the triangles vector and update them
     for ( std::vector<ClickableTriangle*>::iterator it = triangles.begin(); it != triangles.end(); it++ ){
         (*it)->update();
     }
@@ -224,29 +213,8 @@ void InputController::update()
 
 void InputController::draw()
 {
+    // Iterate through the triangles vector and draw them
     for ( std::vector<ClickableTriangle*>::iterator it = triangles.begin(); it != triangles.end(); it++ ){
         (*it)->draw();
     }
-    /*
-    for ( int i = 0; i < CLICKABLE_TRIANGLE_COUNT; i++ ) {
-        triangles[i]->draw();
-    }
-    */
-/*
-    switch ( layout ) {
-
-        case 2:
-            DrawTriangle(Vector2{0,0}, Vector2{0, screenHeight/2 - 100}, Vector2{screenWidth/2 - 300, 0}, Color {20, 200, 0, 127});
-            DrawTriangle(Vector2{0, screenHeight}, Vector2{screenWidth/2 - 300, screenHeight}, Vector2{0, screenHeight/2 + 100}, Color {20, 200, 0, 127});
-            //DrawTriangle(Vector2{screenWidth, 0}, Vector2{});
-        break;
-
-        case 3:
-
-        break;
-
-        case 4:
-        break;
-    }
-*/
 }

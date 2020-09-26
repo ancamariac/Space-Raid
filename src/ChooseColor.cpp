@@ -53,13 +53,17 @@ void ChooseColor::update() {
     }
     if ( IsRecClicked ( MOUSE_LEFT_BUTTON, nextPos.x, nextPos.y, nextButton.width * 2, nextButton.height * 2) ) {
         if ( isNextButtonActive() ){
+
+            // Memorize what ships are playing
             playingShips[0] = blueShipButton.isActive();
             playingShips[1] = redShipButton.isActive();
             playingShips[2] = greenShipButton.isActive();
             playingShips[3] = purpleShipButton.isActive();
 
+            // Memorize the number of playing ships
             shipsNumber = calculatePlayingShipsSum();
 
+            // Switch to gameScene and call the setup routine
             currentScene = Scenes::GameScene;
             gameSceneReference->setupScene();
         }
