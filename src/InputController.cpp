@@ -101,28 +101,107 @@ void InputController::setLayout()
         case 2:
             triangles.push_back(new ClickableTriangle(Vector2{0,0},
                                                       Vector2{0, screenHeight/2 - 100},
-                                                      Vector2{screenWidth/2 - 300, 0},
+                                                      Vector2{screenWidth/2 - 400, 0},
                                                       getColorOfControllerPair(1)));
 
             triangles.push_back(new ClickableTriangle(Vector2{0, screenHeight},
-                                                      Vector2{screenWidth/2 - 300, screenHeight},
+                                                      Vector2{screenWidth/2 - 400, screenHeight},
                                                       Vector2{0, screenHeight/2 + 100},
                                                       getColorOfControllerPair(1)));
 
             triangles.push_back(new ClickableTriangle(Vector2{screenWidth, screenHeight/2 - 100},
                                                       Vector2{screenWidth,0},
-                                                      Vector2{screenWidth/2+300,0},
+                                                      Vector2{screenWidth/2 + 400,0},
                                                       getColorOfControllerPair(2)));
 
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth/2+300, screenHeight},
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth/2 + 400, screenHeight},
                                                       Vector2{screenWidth,screenHeight},
                                                       Vector2{screenWidth,screenHeight/2 + 100},
                                                       getColorOfControllerPair(2)));
             break;
+
         case 3:
+            // Counter Clock Wise - CCW
+
+            // First pair
+            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+                                                      Vector2{200, 200},
+                                                      Vector2{400, 0},
+                                                      getColorOfControllerPair(1)));
+
+            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+                                                      Vector2{0, 400},
+                                                      Vector2{200, 200},
+                                                      getColorOfControllerPair(1)));
+
+            // Second pair
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+                                                      Vector2{screenWidth - 400, 0},
+                                                      Vector2{screenWidth - 200, 200},
+                                                      getColorOfControllerPair(2)));
+
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+                                                      Vector2{screenWidth - 200, 200},
+                                                      Vector2{screenWidth, 400},
+                                                      getColorOfControllerPair(2)));
+
+            // Third pair
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, screenHeight - 400},
+                                                      Vector2{screenWidth - 200, screenHeight - 200},
+                                                      Vector2{screenWidth, screenHeight},
+                                                      getColorOfControllerPair(3)));
+
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth - 400, screenHeight},
+                                                      Vector2{screenWidth, screenHeight},
+                                                      Vector2{screenWidth - 200, screenHeight - 200},
+                                                      getColorOfControllerPair(3)));
 
             break;
         case 4:
+            // First pair
+            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+                                                      Vector2{200, 200},
+                                                      Vector2{400, 0},
+                                                      getColorOfControllerPair(1)));
+
+            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+                                                      Vector2{0, 400},
+                                                      Vector2{200, 200},
+                                                      getColorOfControllerPair(1)));
+
+            // Second pair
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+                                                      Vector2{screenWidth - 400, 0},
+                                                      Vector2{screenWidth - 200, 200},
+                                                      getColorOfControllerPair(2)));
+
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+                                                      Vector2{screenWidth - 200, 200},
+                                                      Vector2{screenWidth, 400},
+                                                      getColorOfControllerPair(2)));
+
+            // Third pair
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, screenHeight - 400},
+                                                      Vector2{screenWidth - 200, screenHeight - 200},
+                                                      Vector2{screenWidth, screenHeight},
+                                                      getColorOfControllerPair(3)));
+
+            triangles.push_back(new ClickableTriangle(Vector2{screenWidth - 400, screenHeight},
+                                                      Vector2{screenWidth, screenHeight},
+                                                      Vector2{screenWidth - 200, screenHeight - 200},
+                                                      getColorOfControllerPair(3)));
+
+
+            // Fourth pair
+            triangles.push_back(new ClickableTriangle(Vector2{0, screenHeight},
+                                                      Vector2{200, screenHeight - 200},
+                                                      Vector2{0, screenHeight - 400},
+                                                      getColorOfControllerPair(4)));
+
+            triangles.push_back(new ClickableTriangle(Vector2{200, screenHeight - 200},
+                                                      Vector2{0, screenHeight},
+                                                      Vector2{400, screenHeight},
+                                                      getColorOfControllerPair(4)));
 
             break;
     }
