@@ -9,6 +9,7 @@ public :
     void draw ();
 
     void update ();
+    void setupScene();
 private:
     InputController inputController;
 };

@@ -4,8 +4,6 @@
 #include <vector>
 #include "raylib.h"
 
-#define CLICKABLE_TRIANGLE_COUNT 4
-
 class ClickableTriangle {
 public:
     ClickableTriangle( Vector2 p1, Vector2 p2, Vector2 p3, Color color );
@@ -32,7 +30,7 @@ class InputController
 
     private:
         int layout = 2;
-        ClickableTriangle* triangles[CLICKABLE_TRIANGLE_COUNT];
+        std::vector<ClickableTriangle*> triangles;
 };
 
 #endif // INPUTCONTROLLER_H

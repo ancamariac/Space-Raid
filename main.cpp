@@ -12,6 +12,8 @@
 
 using namespace std;
 
+GameScene * gameSceneReference = 0;
+
 int main(void)
 {
     // Initialization
@@ -31,6 +33,7 @@ int main(void)
     ChooseColor colors;
     BackgroundRenderer bkgr;
     GameScene gameScene;
+    gameSceneReference = &gameScene;
     //--------------------------------------------------------------------------------------
 
     // Main game loop

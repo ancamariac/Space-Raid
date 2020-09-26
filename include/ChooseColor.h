@@ -14,6 +14,8 @@ public:
     void draw ();
     void update();
     bool isNextButtonActive ();
+private:
+    int calculatePlayingShipsSum();
 };
 
 #endif // CHOOSECOLOR_H

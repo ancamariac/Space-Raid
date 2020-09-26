@@ -4,6 +4,12 @@
 #include "raylib.h"
 #include "Scenes.h"
 
+bool playingShips[4];
+int shipsNumber = 0;
+
+#include <iostream>
+using namespace std;
+
 ChooseColor::ChooseColor () {
 
     backButton = LoadTexture("assets/back.png");
@@ -43,17 +49,32 @@ void ChooseColor::update() {
     purpleShipButton.update();
 
     if ( IsRecClicked ( MOUSE_LEFT_BUTTON, backPos.x, backPos.y, backButton.width * 2, backButton.height * 2) ) {
-
         currentScene = Scenes::MainMenu;
+    }
+    if ( IsRecClicked ( MOUSE_LEFT_BUTTON, nextPos.x, nextPos.y, nextButton.width * 2, nextButton.height * 2) ) {
+        if ( isNextButtonActive() ){
+            playingShips[0] = blueShipButton.isActive();
+            playingShips[1] = redShipButton.isActive();
+            playingShips[2] = greenShipButton.isActive();
+            playingShips[3] = purpleShipButton.isActive();
+
+            shipsNumber = calculatePlayingShipsSum();
+
+            currentScene = Scenes::GameScene;
+            gameSceneReference->setupScene();
+        }
     }
 
 }
 
 bool ChooseColor::isNextButtonActive () {
-    int sum =   blueShipButton.isActive()
+    return calculatePlayingShipsSum() >= 2;
+}
+
+int ChooseColor::calculatePlayingShipsSum()
+{
+    return      blueShipButton.isActive()
     +           redShipButton.isActive()
     +           greenShipButton.isActive()
     +           purpleShipButton.isActive();
-
-    return sum >= 2;
 }

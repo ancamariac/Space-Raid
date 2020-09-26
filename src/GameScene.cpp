@@ -9,3 +9,7 @@
     void GameScene::update () {
         inputController.update();
     }
+
+    void GameScene::setupScene(){
+        inputController.setLayout();
+    }
