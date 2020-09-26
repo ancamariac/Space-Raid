@@ -62,7 +62,7 @@ b2PolygonShape * ps;
 
 b2Body * ship;
 
-b2PolygonShape * shipShape;
+b2CircleShape * shipShape;
 
 Texture2D texShip;
 
@@ -98,7 +98,7 @@ GameScene::GameScene (){
 
     b2FixtureDef fixtureDef;
     fixtureDef.density = 1.f;
-    fixtureDef.friction = 0.5f;
+    fixtureDef.friction = 0.0001f;
     fixtureDef.shape = ps;
 
     box->CreateFixture(&fixtureDef);
@@ -110,6 +110,7 @@ GameScene::GameScene (){
     bodyDef.type = b2BodyType::b2_dynamicBody;
     bodyDef.angularDamping = 0.9f;
     bodyDef.linearDamping = 0.8f;
+    bodyDef.fixedRotation = true;
 
     ship = world->CreateBody(&bodyDef);
 
@@ -121,12 +122,12 @@ GameScene::GameScene (){
     points[2].x = -0.5f;
     points[2].y = -0.3f;
 
-    shipShape = new b2PolygonShape();
-    shipShape->Set(points,3);
+    shipShape = new b2CircleShape();
+    shipShape->m_radius = 0.2f;
 
     b2FixtureDef shipFixtureDef;
     shipFixtureDef.shape = shipShape;
-    shipFixtureDef.friction = 0.5f;
+    shipFixtureDef.friction = 0.0001f;
     shipFixtureDef.density = 1.0f;
 
     ship->CreateFixture(&shipFixtureDef);
@@ -149,8 +150,8 @@ void GameScene::draw () {
     float angle = ship->GetAngle();
 
     Vector2 origin;
-    origin.x = +texShip.width*4 - 4*4;
-    origin.y = -texShip.height*2;
+    origin.x = +texShip.width*4 - 6*4;
+    origin.y = -texShip.height*2 -2 ;
 
     Vector2 pos = { ship->GetPosition().x * scaleFactor+screenWidth/2 // x-ul varfului celui rosu
                     - cos(angle)*origin.x - sin(angle) * origin.y
