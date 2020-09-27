@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "box2d/box2d.h"
 #include "Constants.h"
+#include "Ship.h"
 
 b2World * world;
 
@@ -55,16 +56,11 @@ class FooDraw : public b2Draw  {
 
 FooDraw * fooDraw;
 
-//b2CircleShape * cs;
 b2Body * box;
 
 b2PolygonShape * ps;
 
-b2Body * ship;
-
-b2CircleShape * shipShape;
-
-Texture2D texShip;
+Ship * ship;
 
 GameScene::GameScene (){
 
@@ -75,22 +71,12 @@ GameScene::GameScene (){
     fooDraw->SetFlags( b2Draw ::e_shapeBit );
     world->SetDebugDraw(fooDraw);
 
-    texShip = LoadTexture("assets/blueship.png");
-
-
     // Create a box
     b2BodyDef bodyDef;
     bodyDef.position.x = 0;
     bodyDef.position.y = 0;
 
     box = world->CreateBody(&bodyDef);
-
-    /*
-    cs = new b2CircleShape();
-    cs->m_radius = 1.f;
-    cs->m_p.x = 0;
-    cs->m_p.y = 0;
-    */
 
     ps = new b2PolygonShape();
     ps->SetAsBox(5,1);
@@ -103,34 +89,8 @@ GameScene::GameScene (){
 
     box->CreateFixture(&fixtureDef);
 
-
-    // create a ship
-
-    bodyDef.position.x = -2;
-    bodyDef.type = b2BodyType::b2_dynamicBody;
-    bodyDef.angularDamping = 0.9f;
-    bodyDef.linearDamping = 0.8f;
-    bodyDef.fixedRotation = true;
-
-    ship = world->CreateBody(&bodyDef);
-
-    b2Vec2 points[3];
-    points[0].x = 0;
-    points[0].y = 0;
-    points[1].x = -0.5f;
-    points[1].y = +0.3f;
-    points[2].x = -0.5f;
-    points[2].y = -0.3f;
-
-    shipShape = new b2CircleShape();
-    shipShape->m_radius = 0.2f;
-
-    b2FixtureDef shipFixtureDef;
-    shipFixtureDef.shape = shipShape;
-    shipFixtureDef.friction = 0.0001f;
-    shipFixtureDef.density = 1.0f;
-
-    ship->CreateFixture(&shipFixtureDef);
+    // Create a ship
+    ship = new Ship(world);
 }
 
 GameScene::~GameScene()
@@ -141,61 +101,17 @@ GameScene::~GameScene()
 
 
 void GameScene::draw () {
-
-
     inputController.draw();
-
-
-
-    float angle = ship->GetAngle();
-
-    Vector2 origin;
-    origin.x = +texShip.width*4 - 6*4;
-    origin.y = -texShip.height*2 -2 ;
-
-    Vector2 pos = { ship->GetPosition().x * scaleFactor+screenWidth/2 // x-ul varfului celui rosu
-                    - cos(angle)*origin.x - sin(angle) * origin.y
-                    ,
-                    ship->GetPosition().y * scaleFactor + screenHeight/2 // y-ul varfului celui rosu
-                    - sin(angle)*origin.x + cos(angle) * origin.y
-                    };
-
-    //Vector2 pos = {50,50};
-    DrawTextureEx(texShip,pos,ship->GetAngle() / 3.14 * 180,4,WHITE);
-
+    ship->draw();
     world->DebugDraw();
-
-/*
-    Vector2 pos = { ship->GetPosition().x * scaleFactor+screenWidth/2
-                    + cos(angle)*texShip.width*4/2
-                    ,
-                    ship->GetPosition().y * scaleFactor + screenHeight/2
-                    + sin(angle)*texShip.height*4/2
-                    };
-
-    //Vector2 pos = {50,50};
-    DrawTextureEx(texShip,pos,ship->GetAngle() / 3.14 * 180 +90,4,WHITE);
-*/
 }
 
 b2Vec2 pushForce = {7.f,0};
-b2Vec2 noForce = {0.f,0};
 
 void GameScene::update () {
     inputController.update();
     world->Step(1.f/60.f, 8, 3);
-
-    //if ( IsMouseButtonDown(MOUSE_LEFT_BUTTON) ){
-        float angle = ship->GetAngle();
-        ship->ApplyForceToCenter( b2Vec2{cos(angle),sin(angle)}, true );
-        //ship->SetLinearVelocity(b2Vec2{cos(angle)*5,sin(angle)*5});
-    //}
-
-    if ( IsMouseButtonDown(MOUSE_RIGHT_BUTTON) ){
-        //ship->ApplyTorque( 0.05f, true);
-        float angle = ship->GetAngle();
-        ship->SetTransform(ship->GetPosition(),angle+0.07f);
-    }
+    ship->update(IsMouseButtonDown(MOUSE_RIGHT_BUTTON), IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 }
 
 void GameScene::setupScene(){
