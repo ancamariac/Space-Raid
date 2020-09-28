@@ -66,7 +66,7 @@ GameScene::GameScene (){
     world->SetDebugDraw(fooDraw);
 
     // Create a box
-    b2BodyDef bodyDef;
+    /*b2BodyDef bodyDef;
     bodyDef.position.x = 0;
     bodyDef.position.y = 0;
 
@@ -81,7 +81,7 @@ GameScene::GameScene (){
     fixtureDef.friction = 0.0001f;
     fixtureDef.shape = ps;
 
-    box->CreateFixture(&fixtureDef);
+    box->CreateFixture(&fixtureDef); */
 
     // Create a ship
     ship = new Ship(world);
