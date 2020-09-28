@@ -5,10 +5,23 @@ b2World * gameWorld;
 b2CircleShape * shipShape;
 b2CircleShape * bulletShape;
 
-Ship::Ship(b2World * world)
+Ship::Ship(b2World * world, int type)
 {
     gameWorld = world;
-    texShip = LoadTexture("assets/blueship.png");
+    switch( type ) {
+    case 1:
+        texShip = LoadTexture("assets/blueship.png");
+        break;
+    case 2:
+        texShip = LoadTexture("assets/redship.png");
+        break;
+    case 3:
+        texShip = LoadTexture("assets/greenship.png");
+        break;
+    case 4:
+        texShip = LoadTexture("assets/purpleship.png");
+        break;
+    }
 
     // create a box2d ship
 
@@ -145,5 +158,5 @@ void Ship::draw()
 
 b2Body* Ship::getBody()
 {
-
+    return body;
 }

@@ -1,6 +1,7 @@
 #ifndef GAMESCENES_H
 #define GAMESCENES_H
 #include "InputController.h"
+#include "Ship.h"
 
 class GameScene {
 public :
@@ -13,6 +14,8 @@ public :
     void setupScene();
 private:
     InputController inputController;
+    void spawnShips();
+    Ship * ships[4];
 };
 
 #endif // GAMESCENES_H

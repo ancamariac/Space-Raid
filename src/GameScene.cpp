@@ -3,6 +3,8 @@
 #include "Constants.h"
 #include "Ship.h"
 
+#include "Scenes.h"
+
 b2World * world;
 
 // this stuff helps the compiler in order to avoiding the conflicts between 2 functions with the same name
@@ -54,7 +56,7 @@ b2Body * box;
 
 b2PolygonShape * ps;
 
-Ship * ship;
+//Ship * ship;
 
 GameScene::GameScene (){
 
@@ -84,7 +86,7 @@ GameScene::GameScene (){
     box->CreateFixture(&fixtureDef); */
 
     // Create a ship
-    ship = new Ship(world);
+    //ship = new Ship(world, 1);
 }
 
 GameScene::~GameScene() {
@@ -95,16 +97,44 @@ GameScene::~GameScene() {
 
 void GameScene::draw () {
     inputController.draw();
-    ship->draw();
+    for ( int i = 0; i < 4; i++ ){
+        if( ships[i] ){
+            ships[i]->draw();
+        }
+    }
+
     world->DebugDraw();
 }
 
 void GameScene::update () {
     inputController.update();
     world->Step(1.f/60.f, 8, 3);
-    ship->update(IsMouseButtonDown(MOUSE_RIGHT_BUTTON), IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
+    for ( int i = 0; i < 4; i++ ){
+        if( ships[i] ){
+            ships[i]->update(true, false);
+        }
+    }
+    //ship->update(IsMouseButtonDown(MOUSE_RIGHT_BUTTON), IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 }
 
 void GameScene::setupScene(){
     inputController.setLayout();
+    spawnShips();
+}
+
+void GameScene::spawnShips()
+{
+    for ( int i = 0; i < 4; i++ ){
+        if ( playingShips[i] ) { // extern bool playingShips[4];
+            ships[i] = new Ship(world, i + 1);
+
+            // TODO : replace this with actual spawn locations
+            b2Body * b = ships[i]->getBody();
+            b2Vec2 pos = b->GetPosition();
+            pos.x += i;
+            b->SetTransform(pos,b->GetAngle());
+        } else {
+            ships[i] = nullptr;
+        }
+    }
 }

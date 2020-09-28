@@ -51,6 +51,7 @@ int main(void)
                     break;
                 case Scenes::ChooseColor:
                     colors.update();
+                    break;
                 case Scenes::GameScene:
                     gameScene.update();
                     break;

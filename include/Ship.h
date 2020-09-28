@@ -7,7 +7,7 @@
 class Ship
 {
     public:
-        Ship(b2World * world);
+        Ship(b2World * world, int type);
         virtual ~Ship();
 
         void update( bool rotateDown, bool shootPressed );
