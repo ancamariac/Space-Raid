@@ -4,8 +4,6 @@
 #include "Helpers.h"
 #include "Scenes.h"
 
-
-
 ClickableTriangle::ClickableTriangle(Vector2 _p1, Vector2 _p2, Vector2 _p3, Color color) {
 
     p1 = _p1;
@@ -18,7 +16,7 @@ ClickableTriangle::ClickableTriangle(Vector2 _p1, Vector2 _p2, Vector2 _p3, Colo
 
 void ClickableTriangle::draw()
 {
-    if ( active ) {
+    if ( down ) {
         DrawTriangle(p1, p2, p3, baseColor);
     } else {
         DrawTriangle(p1, p2, p3, alphaColor);
@@ -27,20 +25,32 @@ void ClickableTriangle::draw()
 
 void ClickableTriangle::update()
 {
-    active = false;
+    bool lastFrame = down;
+    down = false;
 
     // Replace logic to work with touch
     if ( IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePos = GetMousePosition();
         if ( IsPointInTriangle(mousePos, p1, p2, p3) ){
-            active = true;
+            down = true;
         }
+    }
+
+    if ( lastFrame == false && down == true ){
+        justPressed = true;
+    } else {
+        justPressed = false;
     }
 }
 
-bool ClickableTriangle::isActive()
+bool ClickableTriangle::isDown()
 {
-    return active;
+    return down;
+}
+
+bool ClickableTriangle::isJustPressed()
+{
+    return justPressed;
 }
 
 
@@ -85,118 +95,168 @@ Color getColorOfControllerPair(int index) { // 1-based
     return BLACK;
 }
 
+// TODO : rewrite getColorOfControllerPair to use getControllerPairShipIndex internally
+int getControllerPairShipIndex(int index) { // 1-based
+    for ( int i = 0; i < 4; i++ ){
+        if (playingShips[i])
+            index--;
+        if ( index == 0 )
+            return i + 1;
+    }
+    return -1;
+}
+
+bool InputController::shouldRotate(int ship) // 1/2/3/4
+{
+    return shipRotateButtons[ship]->isDown();
+}
+
+bool InputController::shouldShoot(int ship) // 1/2/3/4
+{
+    return shipShootButtons[ship]->isJustPressed();
+}
+
+void InputController::initWithZero()
+{
+    for ( int i = 0; i < 4; i++ ){
+        shipRotateButtons[i] = nullptr;
+        shipShootButtons[i]  = nullptr;
+    }
+}
+
+
 // Function called when the GameScene becomes active ( one time )
 // Creates the layout for the input controller depending on how many players play
 void InputController::setLayout()
 {
+    initWithZero();
     layout = shipsNumber;
 
     switch(layout) {
         case 2:
-            triangles.push_back(new ClickableTriangle(Vector2{0,0},
+            // dreapta invarte, stanga trage
+            shipShootButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0,0},
                                                       Vector2{0, screenHeight/2 - 100},
                                                       Vector2{screenWidth/2 - 400, 0},
-                                                      getColorOfControllerPair(1)));
+                                                      getColorOfControllerPair(1));
 
-            triangles.push_back(new ClickableTriangle(Vector2{0, screenHeight},
+            shipRotateButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0, screenHeight},
                                                       Vector2{screenWidth/2 - 400, screenHeight},
                                                       Vector2{0, screenHeight/2 + 100},
-                                                      getColorOfControllerPair(1)));
+                                                      getColorOfControllerPair(1));
 
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, screenHeight/2 - 100},
+            shipRotateButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth, screenHeight/2 - 100},
                                                       Vector2{screenWidth,0},
                                                       Vector2{screenWidth/2 + 400,0},
-                                                      getColorOfControllerPair(2)));
+                                                      getColorOfControllerPair(2));
 
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth/2 + 400, screenHeight},
+            shipShootButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth/2 + 400, screenHeight},
                                                       Vector2{screenWidth,screenHeight},
                                                       Vector2{screenWidth,screenHeight/2 + 100},
-                                                      getColorOfControllerPair(2)));
+                                                      getColorOfControllerPair(2));
+
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(1)]);
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(2)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(1)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(2)]);
             break;
 
         case 3:
             // Counter Clock Wise - CCW
 
             // First pair
-            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+            shipShootButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0, 0},
                                                       Vector2{200, 200},
                                                       Vector2{400, 0},
-                                                      getColorOfControllerPair(1)));
+                                                      getColorOfControllerPair(1));
 
-            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+            shipRotateButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0, 0},
                                                       Vector2{0, 400},
                                                       Vector2{200, 200},
-                                                      getColorOfControllerPair(1)));
+                                                      getColorOfControllerPair(1));
 
             // Second pair
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+            shipRotateButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth, 0},
                                                       Vector2{screenWidth - 400, 0},
                                                       Vector2{screenWidth - 200, 200},
-                                                      getColorOfControllerPair(2)));
+                                                      getColorOfControllerPair(2));
 
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+            shipShootButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth, 0},
                                                       Vector2{screenWidth - 200, 200},
                                                       Vector2{screenWidth, 400},
-                                                      getColorOfControllerPair(2)));
+                                                      getColorOfControllerPair(2));
 
             // Third pair
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, screenHeight - 400},
+            shipRotateButtons[getControllerPairShipIndex(3)] = new ClickableTriangle(Vector2{screenWidth, screenHeight - 400},
                                                       Vector2{screenWidth - 200, screenHeight - 200},
                                                       Vector2{screenWidth, screenHeight},
-                                                      getColorOfControllerPair(3)));
+                                                      getColorOfControllerPair(3));
 
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth - 400, screenHeight},
+            shipShootButtons[getControllerPairShipIndex(3)] = new ClickableTriangle(Vector2{screenWidth - 400, screenHeight},
                                                       Vector2{screenWidth, screenHeight},
                                                       Vector2{screenWidth - 200, screenHeight - 200},
-                                                      getColorOfControllerPair(3)));
+                                                      getColorOfControllerPair(3));
 
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(1)]);
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(2)]);
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(3)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(1)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(2)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(3)]);
             break;
         case 4:
             // First pair
-            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+            shipShootButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0, 0},
                                                       Vector2{200, 200},
                                                       Vector2{400, 0},
-                                                      getColorOfControllerPair(1)));
+                                                      getColorOfControllerPair(1));
 
-            triangles.push_back(new ClickableTriangle(Vector2{0, 0},
+            shipRotateButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0, 0},
                                                       Vector2{0, 400},
                                                       Vector2{200, 200},
-                                                      getColorOfControllerPair(1)));
+                                                      getColorOfControllerPair(1));
 
             // Second pair
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+            shipRotateButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth, 0},
                                                       Vector2{screenWidth - 400, 0},
                                                       Vector2{screenWidth - 200, 200},
-                                                      getColorOfControllerPair(2)));
+                                                      getColorOfControllerPair(2));
 
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, 0},
+            shipShootButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth, 0},
                                                       Vector2{screenWidth - 200, 200},
                                                       Vector2{screenWidth, 400},
-                                                      getColorOfControllerPair(2)));
+                                                      getColorOfControllerPair(2));
 
             // Third pair
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth, screenHeight - 400},
+            shipRotateButtons[getControllerPairShipIndex(3)] = new ClickableTriangle(Vector2{screenWidth, screenHeight - 400},
                                                       Vector2{screenWidth - 200, screenHeight - 200},
                                                       Vector2{screenWidth, screenHeight},
-                                                      getColorOfControllerPair(3)));
+                                                      getColorOfControllerPair(3));
 
-            triangles.push_back(new ClickableTriangle(Vector2{screenWidth - 400, screenHeight},
+            shipShootButtons[getControllerPairShipIndex(3)] = new ClickableTriangle(Vector2{screenWidth - 400, screenHeight},
                                                       Vector2{screenWidth, screenHeight},
                                                       Vector2{screenWidth - 200, screenHeight - 200},
-                                                      getColorOfControllerPair(3)));
-
+                                                      getColorOfControllerPair(3));
 
             // Fourth pair
-            triangles.push_back(new ClickableTriangle(Vector2{0, screenHeight},
+            shipShootButtons[getControllerPairShipIndex(4)] = new ClickableTriangle(Vector2{0, screenHeight},
                                                       Vector2{200, screenHeight - 200},
                                                       Vector2{0, screenHeight - 400},
-                                                      getColorOfControllerPair(4)));
+                                                      getColorOfControllerPair(4));
 
-            triangles.push_back(new ClickableTriangle(Vector2{200, screenHeight - 200},
+            shipRotateButtons[getControllerPairShipIndex(4)] = new ClickableTriangle(Vector2{200, screenHeight - 200},
                                                       Vector2{0, screenHeight},
                                                       Vector2{400, screenHeight},
-                                                      getColorOfControllerPair(4)));
+                                                      getColorOfControllerPair(4));
 
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(1)]);
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(2)]);
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(3)]);
+            triangles.push_back(shipShootButtons[getControllerPairShipIndex(4)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(1)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(2)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(3)]);
+            triangles.push_back(shipRotateButtons[getControllerPairShipIndex(4)]);
             break;
     }
 
@@ -208,6 +268,8 @@ void InputController::update()
     for ( std::vector<ClickableTriangle*>::iterator it = triangles.begin(); it != triangles.end(); it++ ){
         (*it)->update();
     }
+
+
 }
 
 

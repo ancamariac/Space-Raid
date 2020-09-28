@@ -111,7 +111,7 @@ void GameScene::update () {
     world->Step(1.f/60.f, 8, 3);
     for ( int i = 0; i < 4; i++ ){
         if( ships[i] ){
-            ships[i]->update(true, false);
+            ships[i]->update( inputController.shouldRotate(i + 1), inputController.shouldShoot(i + 1) );
         }
     }
     //ship->update(IsMouseButtonDown(MOUSE_RIGHT_BUTTON), IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
