@@ -12,6 +12,8 @@ using namespace std;
 
 ChooseColor::ChooseColor () {
 
+    // assets and positions for next and back button
+
     backButton = LoadTexture("assets/back.png");
     backPos.x = screenWidth/2 - backButton.width - 600;
     backPos.y = screenHeight/2 - backButton.height - 350;

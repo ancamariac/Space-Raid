@@ -19,7 +19,6 @@ int main(void)
     // Initialization
     //--------------------------------------------------------------------------------------
 
-
     InitWindow(screenWidth, screenHeight, "Space Raid");
 
     /* InitAudioDevice();      // Initialize audio device */
@@ -50,7 +49,7 @@ int main(void)
                 case Scenes::MainMenu:
                     menu.update();
                     break;
-                case Scenes::ChooseColors:
+                case Scenes::ChooseColor:
                     colors.update();
                 case Scenes::GameScene:
                     gameScene.update();
@@ -78,7 +77,7 @@ int main(void)
                     menu.draw();
                     break;
 
-                case Scenes::ChooseColors:
+                case Scenes::ChooseColor:
                     colors.draw();
                     break;
                 case Scenes::GameScene:

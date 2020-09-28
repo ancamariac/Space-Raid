@@ -6,8 +6,8 @@
 
 
 
-ClickableTriangle::ClickableTriangle(Vector2 _p1, Vector2 _p2, Vector2 _p3, Color color)
-{
+ClickableTriangle::ClickableTriangle(Vector2 _p1, Vector2 _p2, Vector2 _p3, Color color) {
+
     p1 = _p1;
     p2 = _p2;
     p3 = _p3;
@@ -19,9 +19,9 @@ ClickableTriangle::ClickableTriangle(Vector2 _p1, Vector2 _p2, Vector2 _p3, Colo
 void ClickableTriangle::draw()
 {
     if ( active ) {
-        DrawTriangle(p1,p2,p3,baseColor);
+        DrawTriangle(p1, p2, p3, baseColor);
     } else {
-        DrawTriangle(p1,p2,p3,alphaColor);
+        DrawTriangle(p1, p2, p3, alphaColor);
     }
 }
 

@@ -19,16 +19,6 @@ Ship::Ship(b2World * world)
 
     body = world->CreateBody(&bodyDef);
 
-    /*
-    b2Vec2 points[3];
-    points[0].x = 0;
-    points[0].y = 0;
-    points[1].x = -0.5f;
-    points[1].y = +0.3f;
-    points[2].x = -0.5f;
-    points[2].y = -0.3f;
-    */
-
     shipShape = new b2CircleShape();
     shipShape->m_radius = 0.2f;
 
@@ -49,13 +39,13 @@ void Ship::update(bool rotateDown, bool shootPressed)
 {
     float angle = body->GetAngle();
     body->ApplyForceToCenter( b2Vec2{cos(angle),sin(angle)}, true );
-    //body->SetLinearVelocity(b2Vec2{cos(angle)*5,sin(angle)*5});
 
-    if ( rotateDown ){
-        //body->ApplyTorque( 0.05f, true);
+    if ( rotateDown ) {
         float angle = body->GetAngle();
-        body->SetTransform(body->GetPosition(),angle+0.07f);
+        body->SetTransform(body->GetPosition(),angle + 0.07f);
     }
+
+    // TO DO: Create bullets
 }
 
 void Ship::draw()
@@ -63,17 +53,17 @@ void Ship::draw()
     float angle = body->GetAngle();
 
     Vector2 origin;
-    origin.x = +texShip.width*4 - 6*4;
-    origin.y = -texShip.height*2 -2 ;
+    origin.x = +texShip.width * 4 - 6 * 4;
+    origin.y = -texShip.height * 2 - 2 ;
 
-    Vector2 pos = { body->GetPosition().x * scaleFactor+screenWidth/2 // x-ul varfului celui rosu
+    Vector2 pos = { body->GetPosition().x * scaleFactor + screenWidth / 2 // yellow circle x
                     - cos(angle)*origin.x - sin(angle) * origin.y
                     ,
-                    body->GetPosition().y * scaleFactor + screenHeight/2 // y-ul varfului celui rosu
+                    body->GetPosition().y * scaleFactor + screenHeight/2  // yellow circle y
                     - sin(angle)*origin.x + cos(angle) * origin.y
                     };
 
-    DrawTextureEx(texShip,pos, angle / 3.14 * 180,4,WHITE);
+    DrawTextureEx(texShip,pos, angle / 3.14 * 180, 4, WHITE);
 }
 
 b2Body* Ship::getBody()

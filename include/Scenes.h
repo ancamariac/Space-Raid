@@ -6,7 +6,7 @@
 enum class Scenes {
 TapToStart,
 MainMenu,
-ChooseColors,
+ChooseColor,
 GameScene
 };
 
