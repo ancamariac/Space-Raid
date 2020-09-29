@@ -136,23 +136,23 @@ void InputController::setLayout()
         case 2:
             // dreapta invarte, stanga trage
             shipShootButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0,0},
-                                                      Vector2{0, screenHeight/2 - 100},
-                                                      Vector2{screenWidth/2 - 400, 0},
+                                                      Vector2{0, 400},
+                                                      Vector2{400, 0},
                                                       getColorOfControllerPair(1));
 
             shipRotateButtons[getControllerPairShipIndex(1)] = new ClickableTriangle(Vector2{0, screenHeight},
-                                                      Vector2{screenWidth/2 - 400, screenHeight},
-                                                      Vector2{0, screenHeight/2 + 100},
+                                                      Vector2{400, screenHeight},
+                                                      Vector2{0, screenHeight - 400},
                                                       getColorOfControllerPair(1));
 
-            shipRotateButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth, screenHeight/2 - 100},
+            shipRotateButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth, 400},
                                                       Vector2{screenWidth,0},
-                                                      Vector2{screenWidth/2 + 400,0},
+                                                      Vector2{screenWidth - 400, 0},
                                                       getColorOfControllerPair(2));
 
-            shipShootButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth/2 + 400, screenHeight},
-                                                      Vector2{screenWidth,screenHeight},
-                                                      Vector2{screenWidth,screenHeight/2 + 100},
+            shipShootButtons[getControllerPairShipIndex(2)] = new ClickableTriangle(Vector2{screenWidth - 400, screenHeight},
+                                                      Vector2{screenWidth, screenHeight},
+                                                      Vector2{screenWidth, screenHeight - 400},
                                                       getColorOfControllerPair(2));
 
             triangles.push_back(shipShootButtons[getControllerPairShipIndex(1)]);

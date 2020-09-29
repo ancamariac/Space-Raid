@@ -54,7 +54,10 @@ FooDraw * fooDraw;
 
 b2Body * box;
 
-b2PolygonShape * ps;
+b2PolygonShape * ps1;
+b2PolygonShape * ps2;
+b2PolygonShape * ps3;
+b2PolygonShape * ps4;
 
 //Ship * ship;
 
@@ -67,23 +70,80 @@ GameScene::GameScene (){
     fooDraw->SetFlags( b2Draw ::e_shapeBit );
     world->SetDebugDraw(fooDraw);
 
-    // Create a box
-    /*b2BodyDef bodyDef;
-    bodyDef.position.x = 0;
-    bodyDef.position.y = 0;
+    // Create a border
 
-    box = world->CreateBody(&bodyDef);
+    // horizontal up
+    b2BodyDef up;
+    up.position.x = 0;
+    up.position.y = -9.9;
 
-    ps = new b2PolygonShape();
-    ps->SetAsBox(5,1);
+    box = world->CreateBody(&up);
+
+    ps1 = new b2PolygonShape();
+    ps1->SetAsBox(8,0.1);
 
 
-    b2FixtureDef fixtureDef;
-    fixtureDef.density = 1.f;
-    fixtureDef.friction = 0.0001f;
-    fixtureDef.shape = ps;
+    b2FixtureDef fixtureUp;
+    fixtureUp.density = 1.f;
+    fixtureUp.friction = 0.0001f;
+    fixtureUp.shape = ps1;
 
-    box->CreateFixture(&fixtureDef); */
+    box->CreateFixture(&fixtureUp);
+
+    // horizontal down
+    b2BodyDef down;
+    down.position.x = 0;
+    down.position.y = 9.9;
+
+    box = world->CreateBody(&down);
+
+    ps2 = new b2PolygonShape();
+    ps2->SetAsBox(8,0.1);
+
+
+    b2FixtureDef fixtureDown;
+    fixtureDown.density = 1.f;
+    fixtureDown.friction = 0.0001f;
+    fixtureDown.shape = ps2;
+
+    box->CreateFixture(&fixtureDown);
+
+    // vertical left
+    b2BodyDef left;
+    left.position.x = -8;
+    left.position.y = 0;
+
+    box = world->CreateBody(&left);
+
+    ps3 = new b2PolygonShape();
+    ps3->SetAsBox(0.1, 10);
+
+
+    b2FixtureDef fixtureLeft;
+    fixtureLeft.density = 1.f;
+    fixtureLeft.friction = 0.0001f;
+    fixtureLeft.shape = ps3;
+
+    box->CreateFixture(&fixtureLeft);
+
+    // vertical right
+    b2BodyDef right;
+    right.position.x = 8;
+    right.position.y = 0;
+
+    box = world->CreateBody(&right);
+
+    ps4 = new b2PolygonShape();
+    ps4->SetAsBox(0.1, 10);
+
+
+    b2FixtureDef fixtureRight;
+    fixtureRight.density = 1.f;
+    fixtureRight.friction = 0.0001f;
+    fixtureRight.shape = ps4;
+
+    box->CreateFixture(&fixtureRight);
+
 
     // Create a ship
     //ship = new Ship(world, 1);
