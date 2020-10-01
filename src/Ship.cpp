@@ -112,7 +112,7 @@ void Ship::draw()
                     - sin(angle)*origin.x + cos(angle) * origin.y
                     };
 
-    DrawTextureEx(texShip,pos, angle / 3.14 * 180, 4, WHITE);
+    DrawTextureEx(texShip, pos, angle / 3.14 * 180, 4, WHITE);
 
     // DEBUG
     DrawLine(body->GetPosition().x * scaleFactor + screenWidth / 2,
