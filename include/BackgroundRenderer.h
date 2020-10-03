@@ -13,6 +13,10 @@ public:
     BackgroundRenderer ();
 
     void draw();
+private:
+    Shader sh;
+    int hueAdjustLoc;
+    float hueAdjust;
 };
 
 
