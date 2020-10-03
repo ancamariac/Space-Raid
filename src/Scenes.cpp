@@ -1,3 +1,3 @@
 #include "Scenes.h"
 
-Scenes currentScene = Scenes::ChooseColor;
+Scenes currentScene = Scenes::TapToStart;
