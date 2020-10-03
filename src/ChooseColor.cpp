@@ -22,10 +22,10 @@ ChooseColor::ChooseColor () {
     nextPos.x = screenWidth/2 + nextButton.width + 250;
     nextPos.y = screenHeight/2 - nextButton.height - 350;
 
-    blueShipButton.configure(300,500,1);
-    redShipButton.configure(550,500,2);
-    greenShipButton.configure(800,500,3);
-    purpleShipButton.configure(1050,500,4);
+    blueShipButton.configure(295, 280, 1);
+    redShipButton.configure(815, 280, 2);
+    greenShipButton.configure(295, 645, 3);
+    purpleShipButton.configure(815, 645, 4);
 }
 
 void ChooseColor::draw () {

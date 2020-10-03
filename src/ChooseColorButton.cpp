@@ -1,34 +1,34 @@
 #include "ChooseColorButton.h"
 #include "raylib.h"
+#include "Helpers.h"
+
+const int CCBscale = 14; // choose color button scale
 
 void ChooseColorButton::setNumber( int n ){
     switch ( n ) {
 
         case 1:
-            pTex = LoadTexture("assets/1p.png");
-            shipTex = LoadTexture("assets/blueship.png");
+            shipTex = LoadTexture("assets/bluebutton.png");
             break;
         case 2:
-            pTex = LoadTexture("assets/2p.png");
-            shipTex = LoadTexture("assets/redship.png");
+            shipTex = LoadTexture("assets/redbutton.png");
             break;
         case 3 :
-            pTex = LoadTexture("assets/3p.png");
-            shipTex = LoadTexture("assets/greenship.png");
+            shipTex = LoadTexture("assets/greenbutton.png");
             break;
         case 4:
-            pTex = LoadTexture("assets/4p.png");
-            shipTex = LoadTexture("assets/purpleship.png");
+            shipTex = LoadTexture("assets/purplebutton.png");
             break;
     }
 
-    shipPos.x = x+width-shipTex.width*4-10;
-    shipPos.y = y+10;
+    offTex = LoadTexture("assets/offbutton.png");
 }
 
 void ChooseColorButton::setPosition( int _x , int _y ){
     x = _x;
     y = _y;
+    buttonPos.x = x;
+    buttonPos.y = y;
 }
 
 void ChooseColorButton::configure( int _x, int _y, int color ) {
@@ -38,29 +38,17 @@ void ChooseColorButton::configure( int _x, int _y, int color ) {
 
 void ChooseColorButton::draw() {
     if ( active ){
-        // Draw rectangle + white border
-        DrawRectangle(x, y, width, height, ORANGE);
-        DrawRectangleLines(x+2, y+2, width-4, height-4, WHITE);
-
-        // Draw p and ship
-        DrawTextureEx(shipTex, shipPos, 0, 4, WHITE);
-        DrawTexture(pTex, x+10, y+10, WHITE);
+        // Draw  off button
+        DrawTextureEx(shipTex, buttonPos, 0, CCBscale, WHITE);
     } else {
-        // Draw rectangle + white border
-        DrawRectangle(x, y, width, height, GRAY);
-        DrawRectangleLines(x+2, y+2, width-4, height-4, WHITE);
+        // Draw off button
+        DrawTextureEx(offTex, buttonPos, 0, CCBscale, WHITE);
     }
-
-
 }
 
 void ChooseColorButton::update() {
-    if ( IsMouseButtonPressed(MOUSE_LEFT_BUTTON) ){
-        Vector2 mousePos = GetMousePosition();
-
-        if ( mousePos.x >= x && mousePos.x <= x + width &&
-             mousePos.y >= y && mousePos.y <= y + height
-            )
+    if ( IsRecClicked( MOUSE_LEFT_BUTTON, x, y,
+                      shipTex.width * CCBscale, shipTex.height * CCBscale ) ) {
         active = !active;
     }
 }

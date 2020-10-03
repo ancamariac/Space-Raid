@@ -13,10 +13,8 @@ public:
     int x = 0, y = 0;
     const int width = 200;
     const int height = 100;
-    Texture2D pTex;
-    Texture2D shipTex;
-    Vector2 shipPos;
-    Vector2 pPos;
+    Texture2D shipTex, offTex;
+    Vector2 buttonPos;
 
     void configure( int _x, int _y, int color );
     void draw();
